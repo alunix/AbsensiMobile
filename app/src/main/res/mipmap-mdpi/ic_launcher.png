@@ -1,0 +1,53 @@
+package com.inc.jasaku;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.tapadoo.alerter.Alerter;
+
+public class Dashboard extends AppCompatActivity {
+
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    TextView status, verify, reload;
+    RelativeLayout relativeLayout;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dashboard);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        reload = findViewById(R.id.reload);
+        status = findViewById(R.id.status);
+        verify = findViewById(R.id.verifikasi);
+        status.setText("Status : " + firebaseAuth.getCurrentUser().isEmailVerified());
+        relativeLayout = findViewById(R.id.rel);
+        relativeLayout.setVisibility(View.GONE);
+
+        alertDialog();
+
+        verify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verify.setEnabled(false);
+
+                firebaseAuth.getCurrentUser()
+                        .sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        verify.setEnabled(true);
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext()
