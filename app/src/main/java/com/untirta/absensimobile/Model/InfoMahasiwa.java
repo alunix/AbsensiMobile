@@ -1,26 +1,18 @@
 package com.untirta.absensimobile.Model;
 
-public class Student {
+public class InfoMahasiwa {
 
-    public Student() {
+    public InfoMahasiwa() {
     }
 
-    private String nim,nama,jurusan,email,password;
+    private String nama,nim,jurusan,angkatan,password;
 
-    public Student(String nim, String nama, String jurusan, String email, String password) {
-        this.nim = nim;
+    public InfoMahasiwa(String nama, String nim, String jurusan, String angkatan, String password) {
         this.nama = nama;
-        this.jurusan = jurusan;
-        this.email = email;
-        this.password = password;
-    }
-
-    public String getNim() {
-        return nim;
-    }
-
-    public void setNim(String nim) {
         this.nim = nim;
+        this.jurusan = jurusan;
+        this.angkatan = angkatan;
+        this.password = password;
     }
 
     public String getNama() {
@@ -31,6 +23,14 @@ public class Student {
         this.nama = nama;
     }
 
+    public String getNim() {
+        return nim;
+    }
+
+    public void setNim(String nim) {
+        this.nim = nim;
+    }
+
     public String getJurusan() {
         return jurusan;
     }
@@ -39,12 +39,12 @@ public class Student {
         this.jurusan = jurusan;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAngkatan() {
+        return angkatan;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAngkatan(String angkatan) {
+        this.angkatan = angkatan;
     }
 
     public String getPassword() {

@@ -7,7 +7,7 @@
     android:background="@color/colorWhite"
     android:focusableInTouchMode="true"
     android:layout_height="match_parent"
-    tools:context=".Authentikasi">
+    tools:context=".Mahasiswa.DashboardMahasiswa">
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,7 +19,7 @@
         android:layout_marginTop="40dp"
         android:text="Absensi Mobile"
         android:textStyle="bold"
-        android:textColor="@color/colorRed"
+        android:textColor="@color/colorBlue"
         android:id="@+id/a"/>
 
     <TextView
@@ -80,7 +80,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:background="@drawable/button_auth"
+        android:background="@drawable/draw_btnmahasiswa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/passwordlayout"
