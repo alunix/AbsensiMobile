@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/iconberanda_mahasiswa"
+        android:title=""
+        android:icon="@drawable/icon_beranda"/>
+
+    <item android:id="@+id/iconhistory_mahasiswa"
+        android:title=""
+        android:icon="@drawable/icon_history"/>
+
+    <item android:id="@+id/iconprofile_mahasiswa"
+        android:title=""
+        android:icon="@drawable/icon_profile"/>
+
+</menu>

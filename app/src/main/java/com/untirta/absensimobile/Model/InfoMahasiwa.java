@@ -5,14 +5,32 @@ public class InfoMahasiwa {
     public InfoMahasiwa() {
     }
 
-    private String nama,nim,jurusan,angkatan,password;
+    public String nama,nim,jurusan,angkatan,password, email, uid;
 
-    public InfoMahasiwa(String nama, String nim, String jurusan, String angkatan, String password) {
+    public InfoMahasiwa(String nama, String nim, String jurusan, String angkatan, String password, String email, String uid) {
         this.nama = nama;
         this.nim = nim;
         this.jurusan = jurusan;
         this.angkatan = angkatan;
         this.password = password;
+        this.email = email;
+        this.uid = uid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getNama() {

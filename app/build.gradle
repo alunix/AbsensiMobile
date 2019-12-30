@@ -30,6 +30,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
 
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.tapadoo.android:alerter:2.0.4'
 
 
     testImplementation 'junit:junit:4.12'
