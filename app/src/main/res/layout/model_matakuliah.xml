@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:background="@color/fui_transparent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:cardCornerRadius="7dp"
+        app:cardElevation="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:background="@color/colorBlueyoung"
+                android:id="@+id/line"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="80dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/model_sksmk_mahasiswa"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"
+                    android:textSize="50dp"
+                    android:text="3"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:text="sks"
+                    android:textAllCaps="true"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:text="Mesin Listrik 1"
+                android:layout_toRightOf="@id/line"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:id="@+id/model_namaMK_mahasiswa"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:textSize="12dp"
+                android:text="Wahyuni S.T."
+                android:layout_toRightOf="@id/line"
+                android:layout_below="@id/model_namaMK_mahasiswa"
+                android:layout_marginStart="15dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="10dp"
+                android:id="@+id/model_dosen_mahasiswa"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:textSize="12dp"
+                android:text="Ruang Kelas BR 1.1"
+                android:layout_toRightOf="@id/line"
+                android:layout_below="@id/model_dosen_mahasiswa"
+                android:layout_marginStart="15dp"
+                android:id="@+id/model_kelasmk_mahasiswa"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:textSize="12dp"
+                android:text="Senin, Pukul 07.30 - 09.00 WIB"
+                android:layout_toRightOf="@id/line"
+                android:layout_below="@id/model_kelasmk_mahasiswa"
+                android:layout_marginStart="15dp"
+                android:id="@+id/model_jammk_mahasiswa"/>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

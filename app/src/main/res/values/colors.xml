@@ -11,4 +11,6 @@
     <color name="colorBlue">#0D47A1</color>
     <color name="colorBluemenu">#1A237E</color>
     <color name="colormenu">#BBBBBB</color>
+    <color name="colorsearch">#EBEBEB</color>
+    <color name="colorBlueyoung">#2196F3</color>
 </resources>
