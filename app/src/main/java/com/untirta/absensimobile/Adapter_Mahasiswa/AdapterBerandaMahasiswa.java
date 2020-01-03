@@ -1,7 +1,9 @@
 package com.untirta.absensimobile.Adapter_Mahasiswa;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +11,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.tapadoo.alerter.Alerter;
-import com.untirta.absensimobile.Mahasiswa.AbsenMahasiswa;
 import com.untirta.absensimobile.Model.MataKuliah;
+import com.untirta.absensimobile.QRScaner.AbsenMahasiswa;
 import com.untirta.absensimobile.R;
 
 import java.util.List;
@@ -71,13 +76,16 @@ public class AdapterBerandaMahasiswa extends RecyclerView.Adapter<AdapterBeranda
                 @Override
                 public void onClick(View v) {
                     int posisi = getAdapterPosition();
+                    FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
                     FirebaseAuth auth = FirebaseAuth.getInstance();
                     if (auth.getCurrentUser().isEmailVerified() == false){
                         Toast.makeText(context,"Verifikasi email kamu terlebih dahulu",Toast.LENGTH_LONG).show();
                     } else {
-                        Intent intent = new Intent(context, AbsenMahasiswa.class);
-                        intent.putExtra("namaMK",mataKuliahList.get(posisi).getMk());
-                        context.startActivity(intent);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("namamk",mataKuliahList.get(posisi).getMk());
+                        DialogFragment fragment = new AbsenMahasiswa();
+                        fragment.setArguments(bundle);
+                        fragment.show(manager,"dialogabsenmahasiswa");
                     }
                 }
             });

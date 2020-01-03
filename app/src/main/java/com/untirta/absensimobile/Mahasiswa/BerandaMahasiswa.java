@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,12 +35,14 @@ public class BerandaMahasiswa extends Fragment {
     RecyclerView recyclerView;
     List<MataKuliah> mataKuliahList;
     AdapterBerandaMahasiswa berandaMahasiswa;
+
     String uid;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.beranda_mahasiswa,container,false);
+
 
         Intent intent = getActivity().getIntent();
         uid = intent.getStringExtra("uid");

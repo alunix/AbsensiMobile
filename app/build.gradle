@@ -34,6 +34,8 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.tapadoo.android:alerter:2.0.4'
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
+    implementation 'com.karumi:dexter:5.0.0'
 
 
     testImplementation 'junit:junit:4.12'

@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/bgcontent"
+        android:background="@color/fui_transparent" />
+
+    <com.budiyev.android.codescanner.CodeScannerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scanerview"
+        app:autoFocusButtonColor="@color/fui_transparent"
+        app:autoFocusButtonVisible="false"
+        app:flashButtonColor="@color/fui_transparent"
+        app:flashButtonVisible="false"
+        app:frameAspectRatioHeight="1"
+        app:frameAspectRatioWidth="1"
+        app:frameColor="@color/fui_transparent"
+        app:frameCornersRadius="0dp"
+        app:frameCornersSize="0dp"
+        app:frameSize="1"
+        app:frameThickness="0dp"
+        app:maskColor="@color/fui_transparent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
