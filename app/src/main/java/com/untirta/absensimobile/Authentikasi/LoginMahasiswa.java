@@ -30,6 +30,8 @@ import com.untirta.absensimobile.Mahasiswa.DashboardMahasiswa;
 import com.untirta.absensimobile.Model.InfoMahasiwa;
 import com.untirta.absensimobile.R;
 
+import java.util.List;
+
 public class LoginMahasiswa extends DialogFragment {
 
     @Override
@@ -80,7 +82,8 @@ public class LoginMahasiswa extends DialogFragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
-                                                        readDatabase();
+                                                        progressBar.setVisibility(View.GONE);
+                                                        pesan("Kamu harus memverifikasi alamat email terlebih dahulu");
                                                     }
                                                 }
                                             });
@@ -110,18 +113,28 @@ public class LoginMahasiswa extends DialogFragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                InfoMahasiwa infoMahasiwa = dataSnapshot.getValue(InfoMahasiwa.class);
+                infoMahasiwa = dataSnapshot.getValue(InfoMahasiwa.class);
 
-                pesan("Selamat Datang, " + infoMahasiwa.getNama());
-                Intent intent = new Intent(getActivity(), DashboardMahasiswa.class);
-                intent.putExtra("username", infoMahasiwa.getNama());
-                intent.putExtra("nim", infoMahasiwa.getNim());
-                intent.putExtra("password", infoMahasiwa.getPassword());
-                intent.putExtra("email", infoMahasiwa.getEmail());
-                intent.putExtra("jurusan", infoMahasiwa.getJurusan());
-                intent.putExtra("angkatan", infoMahasiwa.getAngkatan());
-                intent.putExtra("uid", firebaseAuth.getCurrentUser().getUid());
-                startActivity(intent);
+                UserProfileChangeRequest changeRequest = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(infoMahasiwa.getNama())
+                        .build();
+                firebaseAuth.getCurrentUser().updateProfile(changeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        pesan("Selamat Datang, " + infoMahasiwa.getNama());
+                        Intent intent = new Intent(getActivity(), DashboardMahasiswa.class);
+                        intent.putExtra("username", infoMahasiwa.getNama());
+                        intent.putExtra("nim", infoMahasiwa.getNim());
+                        intent.putExtra("password", infoMahasiwa.getPassword());
+                        intent.putExtra("email", infoMahasiwa.getEmail());
+                        intent.putExtra("jurusan", infoMahasiwa.getJurusan());
+                        intent.putExtra("angkatan", infoMahasiwa.getAngkatan());
+                        intent.putExtra("uid", firebaseAuth.getCurrentUser().getUid());
+                        startActivity(intent);
+
+                    }
+                });
+
             }
 
             @Override

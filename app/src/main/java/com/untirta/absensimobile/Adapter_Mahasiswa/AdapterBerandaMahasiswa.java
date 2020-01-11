@@ -28,11 +28,13 @@ import java.util.List;
 public class AdapterBerandaMahasiswa extends RecyclerView.Adapter<AdapterBerandaMahasiswa.Holder> {
 
     Context context;
+    String nim;
     List<MataKuliah> mataKuliahList;
 
-    public AdapterBerandaMahasiswa(Context context, List<MataKuliah> mataKuliahList) {
+    public AdapterBerandaMahasiswa(Context context, List<MataKuliah> mataKuliahList, String nim) {
         this.context = context;
         this.mataKuliahList = mataKuliahList;
+        this.nim = nim;
     }
 
     @NonNull
@@ -83,6 +85,7 @@ public class AdapterBerandaMahasiswa extends RecyclerView.Adapter<AdapterBeranda
                     } else {
                         Bundle bundle = new Bundle();
                         bundle.putString("namamk",mataKuliahList.get(posisi).getMk());
+                        bundle.putString("nim",nim);
                         DialogFragment fragment = new AbsenMahasiswa();
                         fragment.setArguments(bundle);
                         fragment.show(manager,"dialogabsenmahasiswa");

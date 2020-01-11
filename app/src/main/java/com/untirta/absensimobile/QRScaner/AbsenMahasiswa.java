@@ -38,7 +38,7 @@ public class AbsenMahasiswa extends DialogFragment {
     ImageView imageView;
     CodeScannerView scannerView;
     CodeScanner codeScanner;
-    String namamk;
+    String namamk,nim;
 
 
     @Override
@@ -55,6 +55,7 @@ public class AbsenMahasiswa extends DialogFragment {
 
         Bundle args = getArguments();
         namamk = args.getString("namamk");
+        nim = args.getString("nim");
 
         imageView = view.findViewById(R.id.bgcontent);
         scannerView = view.findViewById(R.id.scanerview);
@@ -72,6 +73,7 @@ public class AbsenMahasiswa extends DialogFragment {
                         if (result.getText().equals(String.valueOf(namamk))){
                             Bundle arg = new Bundle();
                             arg.putString("namamk",namamk);
+                            arg.putString("nim",nim);
                             DialogFragment fragment = new SuccesDialog();
                             fragment.setArguments(arg);
                             fragment.show(getFragmentManager(),"SuccesDialog");

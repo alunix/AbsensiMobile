@@ -36,16 +36,16 @@ public class BerandaMahasiswa extends Fragment {
     List<MataKuliah> mataKuliahList;
     AdapterBerandaMahasiswa berandaMahasiswa;
 
-    String uid;
+    String uid,nim;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.beranda_mahasiswa,container,false);
 
-
         Intent intent = getActivity().getIntent();
         uid = intent.getStringExtra("uid");
+        nim = intent.getStringExtra("nim");
 
         recyclerView = view.findViewById(R.id.recyclerberandamahasiswa);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,true);
@@ -71,7 +71,7 @@ public class BerandaMahasiswa extends Fragment {
                     mataKuliahList.add(kuliah);
                 }
 
-                berandaMahasiswa = new AdapterBerandaMahasiswa(getContext(),mataKuliahList);
+                berandaMahasiswa = new AdapterBerandaMahasiswa(getContext(),mataKuliahList,nim);
                 recyclerView.setAdapter(berandaMahasiswa);
                 berandaMahasiswa.notifyDataSetChanged();
             }

@@ -12,9 +12,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.untirta.absensimobile.R;
+
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SuccesDialog extends DialogFragment {
 
@@ -26,8 +36,7 @@ public class SuccesDialog extends DialogFragment {
 
     TextView desc;
     Button input,cancel;
-    String namamk;
-    DatabaseReference reference;
+    String namamk,nim;
 
     @Nullable
     @Override
@@ -36,6 +45,7 @@ public class SuccesDialog extends DialogFragment {
 
         Bundle srg = getArguments();
         namamk = srg.getString("namamk");
+        nim = srg.getString("nim");
 
 
         desc = view.findViewById(R.id.berhasilabsen);
@@ -53,6 +63,26 @@ public class SuccesDialog extends DialogFragment {
         input.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Calendar calendar = Calendar.getInstance();
+                Date date = calendar.getTime();
+                String format = DateFormat.getDateInstance().format(date);
+
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                        .child("Mahasiswa").child(firebaseAuth.getCurrentUser().getUid())
+                        .child("absensi").child(format);
+
+                Map<Object,String> map = new HashMap<>();
+                map.put(namamk,"masuk");
+
+                databaseReference.setValue(map);
+                databaseReference.push();
+
+                Intent intent = new Intent(getActivity(), DashboardMahasiswa.class);
+                intent.putExtra("mk", namamk);
+                intent.putExtra("time", format);
+                startActivity(intent);
 
             }
         });
