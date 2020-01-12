@@ -12,12 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.untirta.absensimobile.Model.InfoMahasiwa;
 import com.untirta.absensimobile.R;
 
 import java.text.DateFormat;
@@ -37,6 +41,8 @@ public class SuccesDialog extends DialogFragment {
     TextView desc;
     Button input,cancel;
     String namamk,nim;
+    InfoMahasiwa infoMahasiwa;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Nullable
     @Override
@@ -45,7 +51,6 @@ public class SuccesDialog extends DialogFragment {
 
         Bundle srg = getArguments();
         namamk = srg.getString("namamk");
-        nim = srg.getString("nim");
 
 
         desc = view.findViewById(R.id.berhasilabsen);
@@ -64,30 +69,51 @@ public class SuccesDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                Calendar calendar = Calendar.getInstance();
-                Date date = calendar.getTime();
-                String format = DateFormat.getDateInstance().format(date);
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Mahasiswa")
+                        .child(firebaseAuth.getCurrentUser().getUid()).child("identitas");
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        infoMahasiwa = dataSnapshot.getValue(InfoMahasiwa.class);
 
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                        .child("Mahasiswa").child(firebaseAuth.getCurrentUser().getUid())
-                        .child("absensi").child(format);
+                        nim = infoMahasiwa.getNim();
+                        baca();
+                    }
 
-                Map<Object,String> map = new HashMap<>();
-                map.put(namamk,"masuk");
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                databaseReference.setValue(map);
-                databaseReference.push();
-
-                Intent intent = new Intent(getActivity(), DashboardMahasiswa.class);
-                intent.putExtra("mk", namamk);
-                intent.putExtra("time", format);
-                startActivity(intent);
+                    }
+                });
 
             }
         });
 
 
         return view;
+    }
+
+    private void baca(){
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        String format = DateFormat.getDateInstance().format(date);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Mahasiswa").child(firebaseAuth.getCurrentUser().getUid())
+                .child("absensi").child(namamk).child(format);
+
+        Map<Object,String> map = new HashMap<>();
+        map.put("mk",namamk);
+        map.put("nama",firebaseAuth.getCurrentUser().getDisplayName());
+        map.put("nim",String.valueOf(nim));
+        map.put("status","masuk");
+        map.put("time",format);
+        databaseReference.setValue(map);
+        databaseReference.push();
+
+        Intent intent = new Intent(getActivity(), DashboardMahasiswa.class);
+        intent.putExtra("mk", namamk);
+        intent.putExtra("time", format);
+        startActivity(intent);
     }
 }

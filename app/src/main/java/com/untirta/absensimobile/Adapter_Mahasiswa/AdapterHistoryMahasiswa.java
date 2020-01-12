@@ -38,6 +38,7 @@ public class AdapterHistoryMahasiswa extends RecyclerView.Adapter<AdapterHistory
         holder.nama.setText(histories.get(position).getNama());
         holder.nim.setText(histories.get(position).getNim());
         holder.status.setText(histories.get(position).getStatus());
+        holder.time.setText(histories.get(position).getTime());
 
     }
 
@@ -53,6 +54,7 @@ public class AdapterHistoryMahasiswa extends RecyclerView.Adapter<AdapterHistory
         public Holder(@NonNull View itemView) {
             super(itemView);
 
+            time = itemView.findViewById(R.id.model_history_tanggal);
             nama = itemView.findViewById(R.id.model_history_namamahasiswa);
             nim = itemView.findViewById(R.id.model_history_nimmahasiswa);
             status = itemView.findViewById(R.id.model_history_keteranganmasuk);

@@ -18,12 +18,24 @@
         android:elevation="8dp"
         app:cardCornerRadius="5dp">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:textSize="13dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/model_history_tanggal"/>
+
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/model_history_tanggal"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="170dp"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -35,15 +47,20 @@
                 android:id="@+id/model_history_namamahasiswa"/>
 
             <TextView
+                app:layout_constraintTop_toBottomOf="@id/model_history_namamahasiswa"
+                app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
                 android:layout_below="@id/model_history_namamahasiswa"
                 android:textColor="@color/colorText"
-                android:text="Prio Dwi Sembodo"
+                android:text="333333333"
                 android:id="@+id/model_history_nimmahasiswa"/>
 
             <TextView
+                app:layout_constraintTop_toTopOf="@id/model_history_tanggal"
+                app:layout_constraintBottom_toBottomOf="@id/model_history_nimmahasiswa"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
@@ -55,7 +72,7 @@
                 android:id="@+id/model_history_keteranganmasuk"/>
 
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.cardview.widget.CardView>
