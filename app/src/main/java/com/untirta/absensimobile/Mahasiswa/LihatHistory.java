@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.untirta.absensimobile.Adapter_Mahasiswa.AdapterHistoryMahasiswa;
 import com.untirta.absensimobile.Model.History;
+import com.untirta.absensimobile.Model.InfoMahasiwa;
 import com.untirta.absensimobile.R;
 
 import java.util.ArrayList;
@@ -36,8 +37,9 @@ public class LihatHistory extends DialogFragment {
 
     AdapterHistoryMahasiswa historyMahasiswa;
     List<History> histories;
+    InfoMahasiwa infoMahasiwa;
     RecyclerView recyclerView;
-    String namamk;
+    String namamk, nim;
     TextView textView;
 
     @Nullable
@@ -51,23 +53,43 @@ public class LihatHistory extends DialogFragment {
         textView = view.findViewById(R.id.lihathistory_namamk);
         textView.setText(namamk);
         recyclerView = view.findViewById(R.id.lihathistory_recyclerview);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,true);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
 
-        bacadata();
+        ambilNim();
 
 
         return view;
     }
 
+    private void ambilNim(){
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Mahasiswa")
+                .child(firebaseAuth.getCurrentUser().getUid()).child("identitas");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                infoMahasiwa = dataSnapshot.getValue(InfoMahasiwa.class);
+
+                nim = infoMahasiwa.getNim();
+                bacadata();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
     private void bacadata() {
 
         histories = new ArrayList<>();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("Mahasiswa").child(firebaseAuth.getCurrentUser().getUid()).child("absensi")
-                .child(namamk);
+                .child("Absensi").child(namamk).child(nim);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

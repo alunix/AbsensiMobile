@@ -68,7 +68,6 @@ public class SuccesDialog extends DialogFragment {
         input.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Mahasiswa")
                         .child(firebaseAuth.getCurrentUser().getUid()).child("identitas");
                 reference.addValueEventListener(new ValueEventListener() {
@@ -99,8 +98,8 @@ public class SuccesDialog extends DialogFragment {
         String format = DateFormat.getDateInstance().format(date);
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("Mahasiswa").child(firebaseAuth.getCurrentUser().getUid())
-                .child("absensi").child(namamk).child(format);
+                .child("Absensi").child(namamk)
+                .child(nim).child(format);
 
         Map<Object,String> map = new HashMap<>();
         map.put("mk",namamk);

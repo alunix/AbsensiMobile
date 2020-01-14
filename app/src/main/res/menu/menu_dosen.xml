@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/iconberanda_dosen"
+        android:title=""
+        android:icon="@drawable/icon_beranda"/>
+
+    <item android:id="@+id/iconprofile_dosen"
+        android:title=""
+        android:icon="@drawable/icon_profile"/>
+
+</menu>

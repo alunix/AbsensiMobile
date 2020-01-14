@@ -28,8 +28,8 @@ public class Welcome extends AppCompatActivity {
         btndosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Welcome.this, LoginDosen.class));
-                finish();
+                DialogFragment fragment  = new LoginDosen();
+                fragment.show(getSupportFragmentManager(),"LoginDosen");
             }
         });
 

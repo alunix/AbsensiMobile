@@ -30,6 +30,7 @@ import com.untirta.absensimobile.Mahasiswa.DashboardMahasiswa;
 import com.untirta.absensimobile.Model.InfoMahasiwa;
 import com.untirta.absensimobile.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoginMahasiswa extends DialogFragment {
@@ -45,6 +46,7 @@ public class LoginMahasiswa extends DialogFragment {
     ProgressBar progressBar;
     InfoMahasiwa infoMahasiwa;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    List<String> listcheckMahasiswa;
 
     @Nullable
     @Override
@@ -88,7 +90,7 @@ public class LoginMahasiswa extends DialogFragment {
                                                 }
                                             });
                                         } else {
-                                            readDatabase();
+                                            checkDosen();
                                         }
                                     }
                                 }
@@ -107,9 +109,38 @@ public class LoginMahasiswa extends DialogFragment {
         return view;
     }
 
-    private void readDatabase() {
+
+    private void checkDosen(){
+        listcheckMahasiswa = new ArrayList<>();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("Mahasiswa");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listcheckMahasiswa.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    listcheckMahasiswa.add(snapshot.getKey());
+                    for (String id : listcheckMahasiswa){
+                        if (!firebaseAuth.getCurrentUser().getUid().equals(id)){
+                            pesan("Kamu Bukan Mahasiswa");
+                            progressBar.setVisibility(View.GONE);
+                        } else {
+                            readDatabase(id);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void readDatabase(String id) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Mahasiswa")
-                .child(firebaseAuth.getCurrentUser().getUid()).child("identitas");
+                .child(id).child("identitas");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

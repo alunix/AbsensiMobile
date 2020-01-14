@@ -23,52 +23,79 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tapadoo.alerter.Alerter;
 import com.untirta.absensimobile.Adapter_Mahasiswa.AdapterBerandaMahasiswa;
+import com.untirta.absensimobile.Model.InfoMahasiwa;
 import com.untirta.absensimobile.Model.MataKuliah;
 import com.untirta.absensimobile.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BerandaMahasiswa extends Fragment {
 
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     RecyclerView recyclerView;
     List<MataKuliah> mataKuliahList;
+    List<String> stringListMKMahasiswa;
     AdapterBerandaMahasiswa berandaMahasiswa;
-
-    String uid,nim;
+    String nim;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.beranda_mahasiswa,container,false);
 
-        Intent intent = getActivity().getIntent();
-        uid = intent.getStringExtra("uid");
-        nim = intent.getStringExtra("nim");
 
         recyclerView = view.findViewById(R.id.recyclerberandamahasiswa);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,true);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
-        settingdata();
+
+        checkMataKuliah();
 
         checkEmailVerify();
 
         return view;
     }
 
-    private void settingdata() {
+    private void checkMataKuliah() {
+        stringListMKMahasiswa = new ArrayList<>();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("Mahasiswa").child(firebaseAuth.getCurrentUser().getUid()).child("matakuliah");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                stringListMKMahasiswa.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    stringListMKMahasiswa.add(snapshot.getKey());
+                }
+
+                bacaMataKuliahMahasiswa();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void bacaMataKuliahMahasiswa() {
         mataKuliahList = new ArrayList<>();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("Mahasiswa").child(firebaseAuth.getCurrentUser().getUid()).child("matakuliah");
+                .child("Matakuliah");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mataKuliahList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     MataKuliah kuliah = snapshot.getValue(MataKuliah.class);
-                    mataKuliahList.add(kuliah);
+                    for (String mk : stringListMKMahasiswa){
+                        if (kuliah.getMk().equals(mk)){
+                            mataKuliahList.add(kuliah);
+                        }
+                    }
+
                 }
 
                 berandaMahasiswa = new AdapterBerandaMahasiswa(getContext(),mataKuliahList,nim);

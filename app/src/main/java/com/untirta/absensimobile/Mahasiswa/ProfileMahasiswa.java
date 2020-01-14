@@ -27,12 +27,6 @@ import java.util.List;
 
 public class ProfileMahasiswa extends Fragment {
 
-    RecyclerView recyclerView;
-    List<String> stringListUidMahasiswa, stringListMKDosen;
-    AdapterBerandaMahasiswa adapterBerandaMahasiswa;
-    List<MataKuliah> mataKuliahList;
-    String nim, uid;
-
 
     @Nullable
     @Override
@@ -40,99 +34,9 @@ public class ProfileMahasiswa extends Fragment {
         View view = inflater.inflate(R.layout.profile_mahasiswa, container, false);
 
 
-        recyclerView = view.findViewById(R.id.dosen_recyclerberanda);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(manager);
-
-
-        matakuliahDosen();
 
 
         return view;
     }
 
-    private void ambilUID() {
-        stringListUidMahasiswa = new ArrayList<>();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Mahasiswa");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                stringListUidMahasiswa.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    stringListUidMahasiswa.add(snapshot.getKey());
-                    for (String uid : stringListUidMahasiswa) {
-                        checkMKMhasiswa(uid);
-
-                    }
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void matakuliahDosen() {
-        stringListMKDosen = new ArrayList<>();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Dosen").child("matakuliah");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                stringListMKDosen.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    stringListMKDosen.add(snapshot.getKey());
-
-                }
-
-                ambilUID();
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void checkMKMhasiswa(String id) {
-        mataKuliahList = new ArrayList<>();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("Mahasiswa").child(id).child("matakuliah");
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mataKuliahList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    MataKuliah kuliah = snapshot.getValue(MataKuliah.class);
-                    for (String lis : stringListMKDosen){
-                        if (kuliah.getMk().equals(lis)){
-                            mataKuliahList.add(kuliah);
-
-                        }
-                    }
-
-                }
-
-                adapterBerandaMahasiswa = new AdapterBerandaMahasiswa(getContext(),mataKuliahList,nim);
-                recyclerView.setAdapter(adapterBerandaMahasiswa);
-                adapterBerandaMahasiswa.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-    }
 }

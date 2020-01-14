@@ -1,4 +1,4 @@
-package com.untirta.absensimobile.Mahasiswa;
+package com.untirta.absensimobile.Dosen;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -24,8 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.untirta.absensimobile.Adapter_Mahasiswa.AdapterBerandaMahasiswa;
-import com.untirta.absensimobile.Adapter_Mahasiswa.AdapterHistoryMahasiswa;
-import com.untirta.absensimobile.Model.History;
 import com.untirta.absensimobile.Model.MataKuliah;
 import com.untirta.absensimobile.QRScaner.AbsenMahasiswa;
 import com.untirta.absensimobile.R;
@@ -33,42 +31,44 @@ import com.untirta.absensimobile.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryMahasiswa extends Fragment {
+public class BerandaDosen extends Fragment {
 
-    List<MataKuliah> mataKuliahList;
-    List<String> stringListMKMahasiswa;
-    ListMk listMk;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     RecyclerView recyclerView;
+    List<MataKuliah> mataKuliahList;
+    List<String> stringListMKdosen;
+    AdapterDosen adapterDosen;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.history_mahasiswa,container,false);
+        View view = inflater.inflate(R.layout.beranda_dosen,container,false);
 
-        recyclerView = view.findViewById(R.id.recyclerhistorymahasiswa);
+        recyclerView = view.findViewById(R.id.recyclerberandadosen);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
-        checkMataKuliah();
+
+        checkMKdosen();
+
 
         return view;
     }
 
-
-    private void checkMataKuliah() {
-        stringListMKMahasiswa = new ArrayList<>();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private void checkMKdosen() {
+        stringListMKdosen = new ArrayList<>();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("Mahasiswa").child(firebaseAuth.getCurrentUser().getUid()).child("matakuliah");
+                .child("Dosen").child(firebaseAuth.getCurrentUser().getUid()).child("matakuliah");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                stringListMKMahasiswa.clear();
+                stringListMKdosen.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    stringListMKMahasiswa.add(snapshot.getKey());
+                    stringListMKdosen.add(snapshot.getKey());
+                    bacaMK();
                 }
 
-                bacaMataKuliahMahasiswa();
+
             }
 
             @Override
@@ -78,27 +78,28 @@ public class HistoryMahasiswa extends Fragment {
         });
     }
 
-    private void bacaMataKuliahMahasiswa() {
+    private void bacaMK() {
         mataKuliahList = new ArrayList<>();
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("Matakuliah");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mataKuliahList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    MataKuliah kuliah = snapshot.getValue(MataKuliah.class);
-                    for (String mk : stringListMKMahasiswa){
-                        if (kuliah.getMk().equals(mk)){
-                            mataKuliahList.add(kuliah);
+                    MataKuliah mataKuliah = snapshot.getValue(MataKuliah.class);
+                    for (String mk : stringListMKdosen){
+                        if (mataKuliah.getMk().equals(mk)){
+                            mataKuliahList.add(mataKuliah);
                         }
                     }
-
                 }
 
-                listMk = new ListMk(getContext(),mataKuliahList);
-                recyclerView.setAdapter(listMk);
-                listMk.notifyDataSetChanged();
+                adapterDosen = new AdapterDosen(mataKuliahList,getContext());
+                recyclerView.setAdapter(adapterDosen);
+                adapterDosen.notifyDataSetChanged();
+
+
             }
 
             @Override
@@ -108,44 +109,14 @@ public class HistoryMahasiswa extends Fragment {
         });
     }
 
+    public class AdapterDosen extends RecyclerView.Adapter<AdapterDosen.Holder>{
 
-
-
-    private void readData (){
-        mataKuliahList = new ArrayList<>();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("Mahasiswa").child(auth.getCurrentUser().getUid()).child("matakuliah");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mataKuliahList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    MataKuliah kuliah = snapshot.getValue(MataKuliah.class);
-                    mataKuliahList.add(kuliah);
-                }
-
-                listMk = new ListMk(getContext(),mataKuliahList);
-                recyclerView.setAdapter(listMk);
-                listMk.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
-    public class ListMk extends RecyclerView.Adapter<ListMk.Holder>{
-
+        List<MataKuliah> list;
         Context context;
-        List<MataKuliah> mataKuliahList;
 
-        public ListMk(Context context, List<MataKuliah> mataKuliahList) {
+        public AdapterDosen(List<MataKuliah> mataKuliahList, Context context) {
+            this.list = mataKuliahList;
             this.context = context;
-            this.mataKuliahList = mataKuliahList;
         }
 
         @NonNull
@@ -159,17 +130,17 @@ public class HistoryMahasiswa extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull Holder holder, int position) {
 
-            holder.sks.setText(mataKuliahList.get(position).getSks());
-            holder.mk.setText(mataKuliahList.get(position).getMk());
-            holder.dosen.setText("Dosen : "+mataKuliahList.get(position).getDosen());
-            holder.waktu.setText(mataKuliahList.get(position).getWaktu());
-            holder.tempat.setText("Ruang Kelas : "+mataKuliahList.get(position).getKelas());
+            holder.sks.setText(list.get(position).getSks());
+            holder.mk.setText(list.get(position).getMk());
+            holder.dosen.setText("Dosen : "+list.get(position).getDosen());
+            holder.waktu.setText(list.get(position).getWaktu());
+            holder.tempat.setText("Ruang Kelas : "+list.get(position).getKelas());
 
         }
 
         @Override
         public int getItemCount() {
-            return mataKuliahList.size();
+            return list.size();
         }
 
         public class Holder extends RecyclerView.ViewHolder{
@@ -190,17 +161,20 @@ public class HistoryMahasiswa extends Fragment {
                     public void onClick(View v) {
                         int posisi = getAdapterPosition();
                         FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("namamk",mataKuliahList.get(posisi).getMk());
-                        DialogFragment fragment = new LihatHistory();
-                        fragment.setArguments(bundle);
-                        fragment.show(manager,"lihathistory");
+                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                        if (auth.getCurrentUser().isEmailVerified() == false){
+                            Toast.makeText(context,"Verifikasi email kamu terlebih dahulu",Toast.LENGTH_LONG).show();
+                        } else {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("namamk",mataKuliahList.get(posisi).getMk());
+                            DialogFragment fragment = new AbsenDosen();
+                            fragment.setArguments(bundle);
+                            fragment.show(manager,"dialogabsendosen");
+                        }
                     }
                 });
 
             }
         }
-
     }
-
 }
