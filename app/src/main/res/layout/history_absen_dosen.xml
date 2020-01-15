@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:background="@color/colorWhite"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:textColor="@color/colorText"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:text="Nama Mahasiswa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="13dp"
+        android:id="@+id/history_absen_namamahasiswa"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/history_absen_namamahasiswa"
+        android:layout_marginTop="15dp"
+        android:id="@+id/history_absen_recyclerview"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

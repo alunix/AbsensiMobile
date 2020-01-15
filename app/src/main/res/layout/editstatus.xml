@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:background="@color/colorWhite"
+    android:padding="18dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/a"
+        android:textColor="@color/colorText"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tentukan status kehadiran mahasiswa anda"/>
+
+    <TextView
+        android:id="@+id/editstatus_namamahasiswa"
+        app:layout_constraintTop_toBottomOf="@id/a"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="nama mahasiswa"/>
+
+    <TextView
+        android:id="@+id/editstatus_nimmahasiswa"
+        app:layout_constraintTop_toBottomOf="@id/editstatus_namamahasiswa"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="33321600000"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_marginTop="15dp"
+        android:hint="Masukan Status Mahasiswa"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/editstatus_nimmahasiswa"
+        android:id="@+id/editstatus_inputstatus"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorRed"
+        app:layout_constraintTop_toBottomOf="@id/editstatus_inputstatus"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Input Status"
+        android:textColor="@color/colorWhite"
+        android:padding="15dp"
+        android:layout_marginTop="15dp"
+        android:id="@+id/editstatus_btnInput"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBlue"
+        app:layout_constraintTop_toBottomOf="@id/editstatus_inputstatus"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Batalkan"
+        android:textColor="@color/colorWhite"
+        android:padding="15dp"
+        android:layout_marginTop="15dp"
+        android:id="@+id/editstatus_btnkembali"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

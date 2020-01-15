@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ public class AdapterHistoryMahasiswa extends RecyclerView.Adapter<AdapterHistory
         holder.nim.setText(histories.get(position).getNim());
         holder.status.setText(histories.get(position).getStatus());
         holder.time.setText(histories.get(position).getTime());
+        holder.imageView.setVisibility(View.GONE);
 
     }
 
@@ -50,6 +52,7 @@ public class AdapterHistoryMahasiswa extends RecyclerView.Adapter<AdapterHistory
     public class Holder extends RecyclerView.ViewHolder{
 
         TextView nama,nim,status,mk,time;
+        ImageView imageView;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
@@ -58,6 +61,7 @@ public class AdapterHistoryMahasiswa extends RecyclerView.Adapter<AdapterHistory
             nama = itemView.findViewById(R.id.model_history_namamahasiswa);
             nim = itemView.findViewById(R.id.model_history_nimmahasiswa);
             status = itemView.findViewById(R.id.model_history_keteranganmasuk);
+            imageView = itemView.findViewById(R.id.model_history_edit);
 
         }
     }

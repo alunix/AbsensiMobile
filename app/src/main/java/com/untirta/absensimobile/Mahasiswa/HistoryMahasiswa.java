@@ -108,36 +108,6 @@ public class HistoryMahasiswa extends Fragment {
         });
     }
 
-
-
-
-    private void readData (){
-        mataKuliahList = new ArrayList<>();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("Mahasiswa").child(auth.getCurrentUser().getUid()).child("matakuliah");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mataKuliahList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    MataKuliah kuliah = snapshot.getValue(MataKuliah.class);
-                    mataKuliahList.add(kuliah);
-                }
-
-                listMk = new ListMk(getContext(),mataKuliahList);
-                recyclerView.setAdapter(listMk);
-                listMk.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
     public class ListMk extends RecyclerView.Adapter<ListMk.Holder>{
 
         Context context;

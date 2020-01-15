@@ -122,7 +122,7 @@ public class LoginMahasiswa extends DialogFragment {
                     listcheckMahasiswa.add(snapshot.getKey());
                     for (String id : listcheckMahasiswa){
                         if (!firebaseAuth.getCurrentUser().getUid().equals(id)){
-                            pesan("Kamu Bukan Mahasiswa");
+                            //pesan("Kamu Bukan Mahasiswa");
                             progressBar.setVisibility(View.GONE);
                         } else {
                             readDatabase(id);

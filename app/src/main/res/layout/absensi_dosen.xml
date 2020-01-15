@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:overScrollMode="never"
+    android:background="@color/colorWhite"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -27,17 +28,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Berikut adalah history nya"
+            android:text="Click mahasiswa anda untuk melihat riwayat absen nya"
             android:textColor="@color/colorText"
-            android:textSize="13dp"
+            android:textSize="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/xy"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="8dp"
             android:id="@+id/aa"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
+            android:background="@color/colorWhite"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/aa"
             android:layout_marginTop="25dp"

@@ -57,10 +57,21 @@
                 android:text="333333333"
                 android:id="@+id/model_history_nimmahasiswa"/>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_edit"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/model_history_keteranganmasuk"
+                app:layout_constraintBottom_toBottomOf="@id/model_history_keteranganmasuk"
+                android:id="@+id/model_history_edit"/>
+
             <TextView
                 app:layout_constraintTop_toTopOf="@id/model_history_tanggal"
                 app:layout_constraintBottom_toBottomOf="@id/model_history_nimmahasiswa"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/model_history_edit"
+                android:layout_marginEnd="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
