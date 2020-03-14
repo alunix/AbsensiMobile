@@ -12,4 +12,4 @@ bagi mahasiswa dana dosennya
 Applikasi ini dibangun dengan bahasa Java dana Back-End Firebase real-time database
 
 
-# Apllikasi ini bersifat Open-Source
+# Apllikasi ini sudah selesai, namun bila ingin dikembangkan lagi untuk skripsi atau lainnya silahkan !
